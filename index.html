@@ -8,6 +8,31 @@
     <link rel="stylesheet" type="text/css" href="style.css"/>
 </head>
 <body>
-    
+    <div id="app">
+    <img v-bind:src="product.image" alt="football">
+    <h2>Activity: {{product.activity}}</h2>
+    <p>Location: {{product.location}}</p>
+    <p>Price: {{product.price}}</p>
+    </div>
+
+<script>
+    let webstore = new Vue({
+        el: '#app',
+        data: {
+            product: {
+                id: 1,
+                activity: "Football",
+                location: "London",
+                price: "2000",
+                image: "Images/Football.png"
+            },
+            
+        }
+    })
+
+
+</script>
+
+
 </body>
 </html>
