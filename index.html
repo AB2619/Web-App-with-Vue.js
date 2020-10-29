@@ -6,17 +6,19 @@
     <title>Web App with Vue.js</title>
     <script src="https://unpkg.com/vue"></script>
     <link rel="stylesheet" type="text/css" href="style.css"/>
+
 </head>
 <body>
     <div id="app">
     <img v-bind:src="product.image" alt="football">
     <h2>Activity: {{product.activity}}</h2>
     <p>Location: {{product.location}}</p>
-    <p>Price: {{product.price}}</p>
+    <p>Price: £{{product.price}}</p>
+    <button @click= 'addToBasket'> Add to Basket </button>
     </div>
 
 <script>
-    let webstore = new Vue({
+    let app = new Vue({
         el: '#app',
         data: {
             product: {
@@ -26,7 +28,12 @@
                 price: "2000",
                 image: "Images/Football.png"
             },
-            
+            cart: []
+        },
+        methods: {
+            addToBasket: function(){
+                this.cart.push(this.product.id)
+            }
         }
     })
 
