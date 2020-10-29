@@ -6,34 +6,44 @@
     <title>Web App with Vue.js</title>
     <script src="https://unpkg.com/vue"></script>
     <link rel="stylesheet" type="text/css" href="style.css"/>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <body>
     <div id="app">
-    <img v-bind:src="product.image" alt="football">
-    <h2>Activity: {{product.activity}}</h2>
-    <p>Location: {{product.location}}</p>
-    <p>Price: £{{product.price}}</p>
-    <button @click= 'addToBasket'> Add to Basket </button>
+        <button> {{cartItemCount}} <span class="fas fa-shopping-basket"></span> Checkout</button> <!--Increments the checkout button-->
+        <img v-bind:src="product.image" alt="football">
+        <h2>Activity: {{product.activity}}</h2>
+        <p>Location: {{product.location}}</p>
+        <p>Price: £{{product.price}}</p>
+        <button @click= 'addToBasket'> Add to Basket </button>
     </div>
 
 <script>
     let app = new Vue({
-        el: '#app',
+        el: '#app', //elements needed
         data: {
             product: {
                 id: 1,
                 activity: "Football",
                 location: "London",
                 price: "2000",
-                image: "Images/Football.png"
+                image: "Images/Football.png",
+                availableInventory: 5,
             },
             cart: []
         },
-        methods: {
+       
+        methods: {     ///To make the button work on vue.js
             addToBasket: function(){
                 this.cart.push(this.product.id)
             }
+        },
+        computed:{ //able to check how many items are in the basket
+            cartItemCount:function(){
+                return this.cart.length || '';
+            },
+
+          
         }
     })
 
@@ -43,3 +53,5 @@
 
 </body>
 </html>
+
+Computed property - checkout button showing the number of items in the cart
