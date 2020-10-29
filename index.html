@@ -15,7 +15,8 @@
         <h2>Activity: {{product.activity}}</h2>
         <p>Location: {{product.location}}</p>
         <p>Price: £{{product.price}}</p>
-        <button @click='addToBasket' v-show='addToCart'> Add to Basket </button> <!--v-show will chekc if user can add more or not-->
+        <button @click='addToBasket' v-if='addToCart'> Add to Basket </button> <!--v-show will chekc if user can add more or not-->
+        <button disabled= 'disabled' v-else>Add to Basket</button> <!--Makes button disapear when exceeded amount-->
     </div>
 
 <script>
