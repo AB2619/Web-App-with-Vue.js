@@ -15,7 +15,7 @@
         <h2>Activity: {{product.activity}}</h2>
         <p>Location: {{product.location}}</p>
         <p>Price: £{{product.price}}</p>
-        <button @click= 'addToBasket'> Add to Basket </button>
+        <button @click='addToBasket' v-show='addToCart'> Add to Basket </button> <!--v-show will chekc if user can add more or not-->
     </div>
 
 <script>
@@ -38,12 +38,14 @@
                 this.cart.push(this.product.id)
             }
         },
-        computed:{ //able to check how many items are in the basket
+        computed:{ //checkout button showing the number of items in the cart
             cartItemCount:function(){
                 return this.cart.length || '';
             },
 
-          
+            addToCart: function(){ //if available inventory is greater than cart item count then you can add more, but if its the same it will return false. This can stop users from adding more.
+                return this.product.availableInventory > this.cartItemCount;
+            }
         }
     })
 
@@ -53,5 +55,3 @@
 
 </body>
 </html>
-
-Computed property - checkout button showing the number of items in the cart
