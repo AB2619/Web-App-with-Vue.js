@@ -6,12 +6,6 @@ body{
     padding: 0;
 }
 
-/* .container {
-    margin: 0 auto;
-    max-width: 300px;
-    padding: 100px 0;
-} */
-
 .image-size{
 width: 100px;
 height: 100px;
@@ -57,5 +51,5 @@ background-repeat: no-repeat;
 .checkoutButton{
     font-weight: bold;
  margin-top: 50px;
- left: 200px;
+ 
 }
