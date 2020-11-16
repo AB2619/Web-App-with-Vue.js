@@ -5,41 +5,52 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Web App with Vue.js</title>
     <script src="https://unpkg.com/vue"></script>
+    <script src="Activities.js"></script>
     <link rel="stylesheet" type="text/css" href="style.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
 </head>
 <body>
     <div id="app">
 
-        <button class="checkoutButton" @click='cartButton'> {{cartItemCount}} <span class="fas fa-shopping-basket"></span> Checkout</button> <!--Increments the checkout button-->
+        <button class="checkoutButton" @click='cartButton'> {{this.cart.length}} <span class="fas fa-shopping-basket"></span> Checkout</button> <!--Increments the checkout button-->
         <p>
 
         <div v-if='showActivity'>
+            <div v-for='Activity in Activities'>
              <div class="container">
                 <div class="card">
                     <div class="info">
                         <img v-bind:src="Activity.image" class="image-size"  alt="football">
                         <div class="activityInfo"> {{Activity.activity}}</div> 
-                        <div class ="availableInfo"> Spaces left: {{Activity.availableSpaces}}</div>
                         <p>Location: {{Activity.location}}</p>
                         <p>Price: £{{Activity.price}}</p>
-                        <button @click='addToBasket' class="addBasket" v-if='addToCart'> Add to Basket </button> <!--v-show will check if user can add more or not-->
+                        <Span v-if='Activity.availableSpaces - cartCount(Activity.id) < 1'> 
+                            Sorry this is fully booked!  </Span>
+                            <Span v-else='Activity.availableSpaces - cartCount(Activity.id) < 5'> 
+                                Spaces left:    {{Activity.availableSpaces - cartCount(Activity.id)}} </Span>
+                        <button v-on:click='addToBasket(Activity)' class="addBasket" v-if='addToCart(Activity)'> Add to Basket </button> <!--v-show will check if user can add more or not-->
                         <button disabled= 'disabled' v-else>Add to Basket</button> <!--Makes button disapear when exceeded amount-->
+                       
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
     <div v-else>
         <h2>Checkout</h2>
+
         <p>
         <strong>Full Name:</strong>
         <input v-model='order.fullName'/>
         </p>
+
         <p>
         <strong>Phone number:</strong>
-        <input v-model='order.phoneNumber'/>
+        <input v-model.number='order.phoneNumber'/>
         </p>
+        
+        <button @click='Submit'>Submit</buttom>
     </div>
 
     </div>
@@ -47,14 +58,7 @@
     let app = new Vue({
         el: '#app', //elements needed
         data: {
-            Activity: {
-                id: 1,
-                activity: "Football",
-                location: "London",
-                price: "20",
-                image: "Images/Football.png",
-                availableSpaces: 5,
-            },
+          Activities: Activities,
             cart: [],
             showActivity:true,
 
@@ -66,26 +70,29 @@
         },
        
         methods: {     ///Add to Basket button
-            addToBasket(){
-                this.cart.push(this.Activity.id);
-                        this.Activity.availableSpaces -=1;
+            addToBasket(Activity){
+                this.cart.push(Activity.id);
+                 
             },
 
             cartButton(){ //equivalent to a IF function
             this.showActivity = this.showActivity ? false : true;
-            }
-        },
-
-
-        computed:{ //checkout button showing the number of items in the cart
-            cartItemCount(){
-                return this.cart.length || '';
             },
 
-            addToCart(){ //if available spaces is greater than cart item count then you can add more, but if its the same it will return false. This can stop users from adding more.
-                return this.Activity.availableSpaces;
+            Submit(){
+                alert('Successful order')
+            },
+            addToCart(Activity){
+                return Activity.availableSpaces > this.cartCount(Activity.id)
+            },
+            cartCount (id) {
+                let count = 0;
+                for(let i=0; i < this.cart.length; i++){
+                    if (this.cart[i] === id) count++;
+                }
+                return count;
             }
-        }
+        },
     })
 
 
