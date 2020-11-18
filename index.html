@@ -41,16 +41,19 @@
         <h2>Checkout</h2>
 
         <p>
-        <strong>Full Name:</strong>
-        <input v-model='order.fullName'/>
+            <form name="form1"  method="post" action="#" onsubmit="return checkChar()">
+        <label>Full Name:
+        <input type='text' name ="Name" id="Name"/>
+        </label>
         </p>
 
         <p>
         <strong>Phone number:</strong>
-        <input v-model.number='order.phoneNumber'/>
+        <input type='text' name ="Number" id="Number"/>
         </p>
         
-        <button @click='Submit'>Submit</buttom>
+        <button @click='Submit'>Submit</button>
+    </form>
     </div>
 
     </div>
@@ -79,9 +82,6 @@
             this.showActivity = this.showActivity ? false : true;
             },
 
-            Submit(){
-                alert('Successful order')
-            },
             addToCart(Activity){
                 return Activity.availableSpaces > this.cartCount(Activity.id)
             },
@@ -95,6 +95,39 @@
         },
     })
 
+    function checkChar(){
+        var errormessage = "";
+
+        if(document.getElementById('Name').value == ""){
+        errormessage += "Please enter your name \n";
+        }
+
+        if(document.getElementById('Number').value == ""){
+        errormessage += "Please enter your number \n";
+        }
+
+        if(errormessage != ""){
+        alert (errormessage);
+       return false;
+    }
+
+        if(!isNaN(form1.Name.value)){
+            alert("Invalid Name Characters!");
+            form1.Name.focus();
+            return false;
+        }
+
+        if(isNaN(form1.Number.value)){
+            alert("Invalid Number Characters!");
+            form1.Number.focus();
+            return false;
+        }
+
+    else{
+        alert ("Submitted")
+    }
+
+    }
 
 </script>
 
