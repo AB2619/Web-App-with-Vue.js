@@ -12,7 +12,7 @@
 <body>
     <div id="app">
 
-        <button class="checkoutButton" @click='cartButton'> {{this.cart.length}} <span class="fas fa-shopping-basket"></span> Checkout</button> <!--Increments the checkout button-->
+        <button class="checkoutButton" @click='cartButton' v-if='addToCartBtn'> {{this.cart.length}} <span class="fas fa-shopping-basket"></span> Checkout</button> <!--Increments the checkout button-->
         <p>
 
         <div v-if='showActivity'>
@@ -30,7 +30,6 @@
                                 Spaces left:    {{Activity.availableSpaces - cartCount(Activity.id)}} </Span>
                         <button v-on:click='addToBasket(Activity)' class="addBasket" v-if='addToCart(Activity)'> Add to Basket </button> <!--v-show will check if user can add more or not-->
                         <button disabled= 'disabled' v-else>Add to Basket</button> <!--Makes button disapear when exceeded amount-->
-                       
                     </div>
                 </div>
             </div>
@@ -72,6 +71,7 @@
         
         },
        
+ 
         methods: {     ///Add to Basket button
             addToBasket(Activity){
                 this.cart.push(Activity.id);
@@ -85,6 +85,7 @@
             addToCart(Activity){
                 return Activity.availableSpaces > this.cartCount(Activity.id)
             },
+            
             cartCount (id) {
                 let count = 0;
                 for(let i=0; i < this.cart.length; i++){
@@ -93,7 +94,19 @@
                 return count;
             }
         },
+        
+//This is to make the checkout button appear after one click
+        computed:{
+            cartItemCount(){
+                return this.cart.length || '';
+            },
+
+            addToCartBtn(){ //if available spaces is greater than cart item count then you can add more, but if its the same it will return false. This can stop users from adding more.
+                return this.cartItemCount >= 1;
+            },
+        }
     })
+
 
     function checkChar(){
         var errormessage = "";
