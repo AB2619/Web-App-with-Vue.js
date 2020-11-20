@@ -4,7 +4,7 @@ let Activities = [
         activity: "Football",
         location: "Hendon",
         price: "20",
-        image: "Images/football.png",
+        image: "Images/football1.png",
         availableSpaces: 5,
     },
     {
